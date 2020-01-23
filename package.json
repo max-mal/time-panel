@@ -1,12 +1,12 @@
 {
   "name": "electron-quick-start",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "watch": "nodemon -w main.js --exec npm run start",
-    "release": "export GH_TOKEN=30cd7633efc910892b393e2cd6acec2ffec3eb19 && electron-builder -w --ia32"
+    "release": "electron-builder -w --ia32"
   },
   "repository": "git@github.com:max-mal/time-panel.git",
   "keywords": [
