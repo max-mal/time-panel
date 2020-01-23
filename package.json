@@ -1,0 +1,35 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "watch": "nodemon -w main.js --exec npm run start",
+    "watch": "electron-builder -w --ia32"
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^7.1.9"
+  },
+  "dependencies": {
+    "@sentry/electron": "^1.2.0",
+    "cozy-ical": "^1.1.22",
+    "dav": "^1.8.0",
+    "node-caldav-mod": "^1.0.3"
+  },
+  "build": {
+    "win": {
+      "publish": ["github",]
+    }
+  }
+}

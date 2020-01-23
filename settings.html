@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Settings</title>
+	<link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
+
+	  <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+	  <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+	  <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+	  <script type="text/javascript" src="./jquery-3.4.1.min.js"></script>
+</head>
+<body>
+	<label>webDavUsername</label>
+	<p><input id="webDavUsername" placeholder="webDavUsername" onchange="saveItem(this)"></p>
+
+	<label>webDavPassword</label>
+	<p><input id="webDavPassword" placeholder="webDavPassword" onchange="saveItem(this)" type="password"></p>
+
+	<label>webDavServer</label>
+	<p><input id="webDavServer" placeholder="webDavServer" onchange="saveItem(this)"></p>
+
+	<label>background</label>
+	<p>
+		<select id="background" onchange="saveItem(this)">
+			<option disabled>background</option>
+			<option>image</option>
+			<option>random_image</option>
+			<option>daily_image</option>
+			<option>downloaded_images</option>
+		</select>
+	</p>
+
+	<label>imageUrl</label>
+	<p><input id="imageUrl" placeholder="imageUrl" onchange="saveItem(this)"></p>
+
+	<label>randomTerm</label>
+	<p><input id="randomTerm" placeholder="randomTerm" onchange="saveItem(this)"></p>
+
+	<label>dailyTerm</label>
+	<p><input id="dailyTerm" placeholder="dailyTerm" onchange="saveItem(this)"></p>
+
+	<!-- <label>screenUpdateTime</label>
+	<p><input id="screenUpdateTime" placeholder="screenUpdateTime" onchange="saveItem(this)"></p> -->
+
+	<p>КАмеры</p>
+	<select id="cameras" multiple style="height: 500px;" onchange="localStorage.setItem('cameras', JSON.stringify($(this).val()))">
+		
+	</select><br>
+
+	<!-- <label>cameraInterval</label>
+	<p><input id="cameraInterval" placeholder="cameraInterval" onchange="saveItem(this)"></p>
+ -->
+	<label>cameraDuration</label>
+	<p><input id="cameraDuration" placeholder="cameraDuration" onchange="saveItem(this)"></p>
+
+	<!-- <label>mapInterval</label>
+	<p><input id="mapInterval" placeholder="mapInterval" onchange="saveItem(this)"></p> -->
+
+	<label>mapDuration</label>
+	<p><input id="mapDuration" placeholder="mapDuration" onchange="saveItem(this)"></p>
+
+	<label>backgroundTypeChangeInterval</label>
+	<p><input id="backgroundTypeChangeInterval" placeholder="backgroundTypeChangeInterval" onchange="saveItem(this)"></p>
+
+	<label>weatherCity</label>
+	<p><input id="weatherCity" placeholder="weatherCity" onchange="saveItem(this)"></p>
+
+	<label>prognozisStop</label>
+	<p><input id="prognozisStop" placeholder="prognozisStop" onchange="saveItem(this)"></p>
+
+	<a href="./index.html">Back</a>
+
+
+	<p>Test area!</p>
+	<div id="test">
+	</div>
+	<button onclick="test()">Test</button>
+	
+	<script type="text/javascript">
+
+		function getCameras () {
+			$.get('https://sevstar.net/oko/', function (data) {
+				window.data = data 
+				window.cameras = data.split('cameras = ')[1].split('var map')[0].trim()
+				cameras = cameras.substring(0, cameras.length-1)
+				cameras = JSON.parse(cameras)
+
+				let selectedCameras = localStorage.getItem('cameras')
+				if (selectedCameras) {
+					selectedCameras = JSON.parse(selectedCameras)
+				} else {
+					selectedCameras = []
+				}
+				cameras.forEach((camera) => {
+					$('#cameras').append(`
+						<option ${selectedCameras.includes(camera.stream_name)? 'selected' : ''} value="${camera.stream_name}">${camera.title}</option>
+					`)
+				})
+				
+
+			})	
+		}
+
+		function test() {
+			$('#test').html('')
+			let selectedCameras = localStorage.getItem('cameras')
+				if (selectedCameras) {
+					selectedCameras = JSON.parse(selectedCameras)
+				} else {
+					selectedCameras = []
+				}
+
+				cameras.forEach((camera) => {
+					if (selectedCameras.includes(camera.stream_name)) {
+						$('#test').append(`
+							<video  class="video-js" width="600" height="400" autoplay muted>
+						        <source src="${camera.stream_low_url}" type="application/x-mpegURL">
+						    </video>
+						`)
+
+						
+					}
+				})
+
+				$('#test video').each(function() {
+					videojs(this)
+				})
+		}
+		
+	</script>
+
+
+  
+
+
+	<script type="text/javascript">		
+		function saveItem(el) {
+			localStorage.setItem(el.id, el.value)
+			alert('Saved')
+		}
+
+		function getItems() {
+			document.querySelectorAll('input, select').forEach((el) => {
+				el.value = localStorage.getItem(el.id)
+			})
+		}	
+
+		
+
+		document.addEventListener('DOMContentLoaded', function() {
+			getItems()
+			getCameras()
+		})
+	</script>
+
+	
+</body>
+</html>

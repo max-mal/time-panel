@@ -1,0 +1,302 @@
+.screen {
+  
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  transition: background-image 1s;
+  position: absolute;
+}
+body {
+  margin: 0;
+}
+.datetime {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    color: white;
+    right: 0;
+    text-align: center;
+}
+
+.time {
+    font-size: 150px;
+}
+.date {
+    font-size: 60px;
+}
+.statusBar {
+    position: absolute;
+    top: 25px;
+    color: white;
+    left: 20px;
+    font-size: 20px;
+}
+.statusBar a, .statusBar a:visited {
+    color: white;
+}
+.statusBar a:hover {
+    color: grey;
+}
+.calendar-wrapper {
+    position: absolute;
+    top: 80px;
+    left: 10px;
+}
+.status-internet {
+  display: inline-block;
+}
+span.calendar-events {
+    font-size: smaller !important;
+    color: #4EB5E6;
+    vertical-align: super !important;
+    position: relative;
+    top: -10px;
+}
+.calendar-events-list {
+    font-size: 16px;
+    width: 290px;
+    background: #00000069;
+    border: none;
+    color: white;
+    width: 290px;
+    margin-top: 20px;
+}
+.calendar-event {
+    padding: 10px;
+    border-bottom: 1px solid #00000052;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.startTime, .endTime {
+    display: inline-block;
+    font-style: italic;
+}
+
+.event-title {
+    display: inline-block;
+    margin-left: 10px;
+    text-decoration: underline;
+}
+
+.startTime:after {content: ' - ';}
+
+.startTime.allday:after {content: '';}
+
+.event-location {
+    margin-top: 5px;
+    text-align: right;
+    margin-right: 10px;
+}
+.calendar-event:last-child {
+    border-bottom: none;
+}
+.hidden {
+  display: none;
+}
+.cameras {
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    /* z-index: 1; */
+    background: black;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+.map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+/*.statusBar.cmap {
+    right: 125px;
+}*/
+.statusBar a {
+    text-decoration: none;
+}
+
+.datepicker {
+    font-size: 16px;
+    width: 290px;
+    background: #00000069;
+    border: none;
+}
+
+.weather {
+    text-align: right;
+}
+
+.weatherBlock {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    background: #00000069;
+    border: none;
+    color: white;
+}
+
+.weather {
+    position: absolute;
+    top: 20px;
+    right: 10px;
+}
+
+
+
+.forecastItem img {
+    width: 35px;
+}
+
+.forecastItem_title {
+    font-size: 15px;
+}
+
+.forecastItem_date {
+    font-size: 15px;
+}
+
+
+.weatherBlock.weatherForecast {
+    vertical-align: top;
+}
+
+.forecastItem {
+    text-align: center;
+    display: inline-block;
+    vertical-align: top;
+    width: 50px;
+}
+.forecastItem_list_item {    
+    height: 35px;
+}
+
+.forecastItem_list_item_time {    
+    position: relative;
+    top: 8px;
+}
+
+.weatherBlock.weatherForecast {
+    font-size: 16px;
+    /* z-index: 1; */
+    /* position: relative; */
+}
+
+body {
+    overflow: hidden;
+}
+
+.forecastItem_list_item_data {
+    display: none;
+}
+
+.weatherBlock.weatherForecast {
+    padding-bottom: 20px;
+    position: absolute;
+    width: 340px;
+    top: 170px;
+    right: 10px;
+    text-align: center;
+}
+.calendar-events-list {
+    position: relative;
+    z-index: 99;
+    padding-bottom: 60px;
+    box-shadow: 0 0 12px -5px black;
+}
+
+
+
+.screen {
+    background: #0000008f;
+}
+
+.datepicker--cell-day {
+    color: white;
+}
+
+.datepicker--cell.datepicker--cell-day.-other-month- {
+    color: #ffffff36;
+}
+
+nav.datepicker--nav {
+    border-bottom: 1px solid #0000004d;
+}
+
+.datepicker--nav-title {
+    color: white;
+}
+.screen-bg {
+    background: url(https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3);
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    filter: blur(0px);
+}
+
+.transport {
+    padding: 10px 0 10px 0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    background: #00000069;
+    border: none;
+    color: white;
+    margin-top: 20px;
+    max-height: 60vh;
+    overflow: auto;
+}
+
+.transport__item__title {
+    font-style: italic;
+}
+
+.transport__item {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.transport__item__estimated {
+    text-align: left;
+}
+
+.transport__item__estimated__item {
+    margin: 5px 0 5px 0;
+    border-bottom: 1px solid #0000005c;
+    padding: 5px;
+}
+
+.transport::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+.transport::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+.quote {
+    color: white;
+    position: absolute;
+    bottom: 50px;
+    width: 50vw;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    font-size: 20px;
+}
+
+.quote__author {
+    font-size: 25px;
+    margin-top: 10px;
+    text-align: right;
+    font-style: italic;
+    text-decoration: underline;
+}

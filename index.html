@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Screen</title>
+    <link rel="stylesheet" type="text/css" href="./picons/css/icons.css">
+    <link rel="stylesheet" type="text/css" href="./picons/css/animation.css">
+    <link rel="stylesheet" type="text/css" href="./calendar/css/datepicker.min.css">
+    <link rel="stylesheet" type="text/css" href="./app.css">
+
+
+    <link href="https://vjs.zencdn.net/7.6.6/video-js.css" rel="stylesheet" />
+
+    <script type="text/javascript" src="quotes.js"></script>
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
+    <script src="https://vjs.zencdn.net/7.6.6/video.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+  </head>
+  <body>
+    <div class="cameras">
+      
+    </div>
+    <div class="map">
+    </div>
+
+    <div class="screen-bg"></div>
+    <div class="screen">
+
+      <div class="weather hidden">
+        <div class="temp-block weatherBlock">
+          <i class="icon-thermometer"></i><span>0.61 ℃ (-8.26 ℃)</span>
+        </div>
+        <div class="wind-block weatherBlock">
+          <i class="icon-left-circled2"></i><span> 9.34 m/s</span>
+        </div>
+        <div class="cloud-block weatherBlock">
+          <i class="icon-cloud"></i><span> 56%</span>
+        </div><br>
+
+         <div class="state-block weatherBlock">
+          <img src="http://openweathermap.org/img/wn/10d@2x.png" style="vertical-align: middle; height: 65px;">
+          <div style="display: inline-block; vertical-align: middle;">
+            <div class="state-name">Clouds</div>
+            <div class="state-description" style="font-size: 15px;">broken clouds</div>  
+          </div>
+          
+        </div><br>
+
+      </div>
+      <div class="quote">
+        <div class="quote__title"></div>
+        <div class="quote__author"></div>
+      </div>
+
+      <div class="datetime">
+        <div class="time"></div>
+        <div class="date"></div>
+      </div>
+
+      <div class="weatherBlock weatherForecast">         
+        </div>
+
+      
+
+      <div class="statusBar">
+        <div class="status-internet">
+          <i class="icon-hourglass-o"></i>
+        </div>
+        <a href="settings.html">
+          <i class="icon-cog"></i>
+        </a>
+        <a href="javascript:app.toggleCameras();">
+          <i class="icon-videocam"></i>
+        </a>
+        <a href="javascript:app.toggleMap();">
+          <i class="icon-map"></i>
+        </a>
+      </div>
+      <div class="calendar-wrapper">
+        <div class="calendar"></div>
+        <div class="calendar-events-list hidden">
+          <div class="calendar-event">
+            <div class="startTime">
+              12<sup>00</sup>
+            </div>
+            <div class="endTime">
+              12<sup>00</sup>
+            </div>
+            <div class="event-title">
+              Some event
+            </div>
+            <div class="event-location">
+              <i class="icon-location">
+                SomeWhere
+              </i>
+            </div>
+          </div>
+          <div class="calendar-event">
+            <div class="startTime">
+              12<sup>00</sup>
+            </div>
+            <div class="endTime">
+              12<sup>00</sup>
+            </div>
+            <div class="event-title">
+              Some event
+            </div>
+            <div class="event-location">
+              <i class="icon-location">
+                SomeWhere
+              </i>
+            </div>
+          </div>
+        </div>
+        <div class="transport hidden">
+          <div class="transport__item">
+            <div class="transport__item__title"><i class="icon-bus"></i>T20</div>
+            <div class="transport__item__estimated">
+                <div class="transport__item__estimated__item">
+                  <i class="icon-circle"></i><span>5:35</span>
+                </div>
+                <div class="transport__item__estimated__item">
+                  <i class="icon-circle-empty"></i><span>5:35</span>
+                </div>
+            </div>
+          </div>
+          <div class="transport__item">
+            <div class="transport__item__title"><i class="icon-bus"></i>T20</div>
+            <div class="transport__item__estimated">
+                <div class="transport__item__estimated__item">
+                  <i class="icon-circle"></i><span>5:35</span>
+                </div>
+                <div class="transport__item__estimated__item">
+                  <i class="icon-circle-empty"></i><span>5:35</span>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <script type="text/javascript" src="./jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="./calendar/js/datepicker.min.js"></script>
+    <script src="./renderer.js"></script>    
+  </body>
+</html>
