@@ -6,9 +6,9 @@
   "scripts": {
     "start": "electron .",
     "watch": "nodemon -w main.js --exec npm run start",
-    "release": "electron-builder -w --ia32"
+    "release": "export GH_TOKEN=30cd7633efc910892b393e2cd6acec2ffec3eb19 && electron-builder -w --ia32"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "git@github.com:max-mal/time-panel.git",
   "keywords": [
     "Electron",
     "quick",
@@ -25,11 +25,14 @@
     "@sentry/electron": "^1.2.0",
     "cozy-ical": "^1.1.22",
     "dav": "^1.8.0",
+    "electron-updater": "^4.2.0",
     "node-caldav-mod": "^1.0.3"
   },
   "build": {
     "win": {
-      "publish": ["github"]
+      "publish": [
+        "github"
+      ]
     }
   }
 }

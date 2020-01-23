@@ -1,7 +1,7 @@
 const Sentry = require('@sentry/electron');
 
 Sentry.init({dsn: 'https://06ddb4f5bf6c4b589e0624bed18fd441@sentry.io/1894689'});
-
+const { autoUpdater } = require("electron-updater")
 const dav = require('dav');
 const ipc = require('electron').ipcMain
 // Modules to control application life and create native browser window
@@ -12,7 +12,7 @@ const ICalParser = require('cozy-ical').ICalParser;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-
+ 
 process.on('uncaughtException', function (err) {
   console.log(err);
 })
@@ -52,7 +52,13 @@ function createWindow() {
         // when you should delete the corresponding element.
         mainWindow = null
     })
+
+    autoUpdater.checkForUpdates();
 }
+
+ autoUpdater.on('update-downloaded', (info) => {
+  autoUpdater.quitAndInstall();  
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
