@@ -489,8 +489,8 @@ let app = {
 
 				$('.cloud-block span').html(`${data.clouds.all}%`)
 				$('.state-block img').attr('src', `http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`)
-				$('.state-block .state-name').html(data.weather.main)
-				$('.state-block .state-description').html(data.weather.description)
+				$('.state-block .state-name').html(data.weather[0].main)
+				$('.state-block .state-description').html(data.weather[0].description)
 			})
 
 			$.get(`https://api.openweathermap.org/data/2.5/forecast?q=${weatherCity}&units=metric&appid=0d48c65818b71bba42c89e2ec7579ac1`, function(data) {
