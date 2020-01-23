@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "watch": "nodemon -w main.js --exec npm run start",
-    "watch": "electron-builder -w --ia32"
+    "release": "electron-builder -w --ia32"
   },
   "repository": "https://github.com/electron/electron-quick-start",
   "keywords": [
