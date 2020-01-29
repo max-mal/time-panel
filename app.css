@@ -239,6 +239,7 @@ nav.datepicker--nav {
     background-size: cover !important;
     background-repeat: no-repeat !important;
     filter: blur(0px);
+    transition: background-image 1s;
 }
 
 .transport {
@@ -299,4 +300,9 @@ nav.datepicker--nav {
     text-align: right;
     font-style: italic;
     text-decoration: underline;
+}
+.memoryInfo.weatherBlock {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
 }

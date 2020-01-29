@@ -6,6 +6,7 @@ const dav = require('dav');
 const ipc = require('electron').ipcMain
 // Modules to control application life and create native browser window
 const { app, protocol, BrowserWindow, crashReporter } = require('electron')
+app.commandLine.appendSwitch('--enable-precise-memory-info')
 const path = require('path')
 const ICalParser = require('cozy-ical').ICalParser;
 // Keep a global reference of the window object, if you don't, the window will
@@ -39,7 +40,7 @@ function createWindow() {
     mainWindow.setFullScreen(true);
     mainWindow.removeMenu()
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     mainWindow.webContents.on('crashed', (e) => {        
         mainWindow.destroy();

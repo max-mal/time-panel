@@ -25,90 +25,42 @@ let app = {
 		let that = this
 		this.timeEl = document.querySelector('.time')
 		this.dateEl = document.querySelector('.date')
-		this.dateInterval = setInterval(function() {
-			that.setDateTime()
-		}, 200)
-
-
 		this.internetIconEl = document.querySelector('.status-internet i')
-		this.internetInterval = setInterval(function() {
-			that.checkNetwork()
-		}, 2000)
-		this.checkNetwork()
 
-		this.calendarInterval = setInterval(function() {
-			that.getCalendar()
-		}, 30000)
-		this.getCalendar()
+		that.setDateTime()
+		that.bgTypeChange()
+		that.checkNetwork()
 
-		$('.calendar').datepicker({
-			inline: true,
-			firstDay: 1,
-			onRenderCell: function(date, cellType) {
-		        if (cellType == 'day') {
-		        	let cDate = new Date(date)
-		        	let events = that.getEventsByDate(date)
+		that.calendarListeners()
+		that.getCalendar()
 
-		        	if (events.length) {
-		        		return {
-						    html: (cDate.getDate() + `<span class="calendar-events">${events.length}</span>`), // Custom cell content
-						    classes: '', // Extra css classes to cell
-						    disabled: false, // true/false, if true, then cell will be disabled
-						}
-		        	}
-		        	
-		        }
-		        // console.log(date)
-		    },
-		    onSelect(formattedDate, date, plugin) {
-		    	that.calendarSelected = date
-		    	that.showEventsList(date)
-		    }
-		})
 
-		// let updateTime = localStorage.getItem('screenUpdateTime')
-		// if (updateTime) {
-		// 	this.screenUpdateInterval = setInterval(function() {
-		// 		that.processBackground()
-		// 	}, updateTime * 1000)
-		// }
-		// this.processBackground()
+		that.getCamerasList()
+		that.getWeather()
+		that.stopPrognozisTm()
 
-		this.getCamerasList(function () {
-			console.log('Got cameras list')			
-		})
-
-		setInterval(function() {
-			this.getCamerasList(function () {
-				console.log('Updated cameras list')			
-			})
-		}, 10800000)
-
-		this.bgTypeChange()
-
-		if (localStorage.getItem('weatherCity')) {
-			this.getWeather()
-			setInterval(function() {
-				that.getWeather()
-			}, 120000)	
-		}
+		that.updateMemoryInfo()
 		
+	},
+	updateMemoryInfo: function() {
+		$('.memoryInfo').html(`${(window.performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(1) } Kb`)
+		if (window.performance.memory.usedJSHeapSize > window.performance.memory.jsHeapSizeLimit * 0.75) {
+			$('.memoryInfo').css('color', 'red')
+		}
+		setTimeout(app.updateMemoryInfo, 1000)
+	},
+	stopPrognozisTm: function() {
+		let that = app
 		let prognozisStop = localStorage.getItem('prognozisStop')
 		if (prognozisStop) {
 			that.getStopPrognozis(function(){
 				that.renderStopPrognozis()
 			})
-			setInterval(function() {
-				that.getStopPrognozis(function(){
-					that.renderStopPrognozis()
-				})
-			}, 60000)
+			setTimeout(app.stopPrognozisTm, 60000)
 		}
-
-		
 	},
 	bgTypeChange: function() {
-		let that = this
+		let that = app
 		
 		let backgroundTypeChangeInterval = localStorage.getItem('backgroundTypeChangeInterval')
 
@@ -116,7 +68,7 @@ let app = {
 		let mapDuration = localStorage.getItem('mapDuration')
 
 		let nextType = 'image'
-		switch(this.backgroundType) {
+		switch(app.backgroundType) {
 			case 'image':
 				nextType = 'cameras'
 				break;
@@ -142,20 +94,20 @@ let app = {
 			nextType = 'image'
 		}
 
-		this.backgroundType = nextType
+		app.backgroundType = nextType
 
 		if (nextType == 'image') {
-			this.processBackground()
+			app.processBackground()
 			setTimeout(function() {
 				that.bgTypeChange()
 			}, backgroundTypeChangeInterval * 1000)
 		} else if (nextType == 'cameras') {
-			this.enableCameraScreen(cameraDuration)
+			app.enableCameraScreen(cameraDuration)
 		} else if (nextType == 'map') {
-			this.enableMapScreen(mapDuration)
+			app.enableMapScreen(mapDuration)
 		}
 
-		this.randomQuote()
+		app.randomQuote()
 	},
 	enableMapScreen: function(mapDuration) {
 		console.log('Map enable', new Date())
@@ -177,75 +129,8 @@ let app = {
 			that.bgTypeChange()
 		}, cameraDuration * 1000)								
 	},
-	hideCameraScreen: function() {
-		console.log('Camera hide', new Date())
-		let that = this
-		this.isCameraScreen = false		
-		$('.cameras').html('')
-
-	},
-	toggleCameras: function() {
-		if (this.isMapScreen) {
-			this.hideMap()	
-		}
-		if (!this.isCameraScreen) {
-			this.showCamerasScreen()
-		} else {
-			this.isCameraScreen = false
-			this.processBackground()
-			$('.cameras').html('')
-		}
-	},
-	toggleMap: function() {
-		if (this.isCameraScreen) {
-			this.isCameraScreen = false
-			$('.cameras').html('')
-		}
-		if (!this.isMapScreen) {
-			this.showMap()
-		} else {
-			this.hideMap()
-			this.processBackground()
-		}
-	},
-	setDateTime: function() {
-		let date = new Date()
-		let timeString  = date.getHours() + ':' + (date.getMinutes()< 10 ? '0' : '') + date.getMinutes() 
-		if (this.timeEl.innerText != timeString) {
-			this.timeEl.innerText = timeString
-		}
-
-		let dateString = date.toLocaleDateString('ru-RU', { weekday: 'long' }) + ', ' + date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
-		if (this.dateEl.innerText != dateString) {
-			this.dateEl.innerText = dateString			
-		}
-		
-	},
-	checkNetwork: function() {
-		let that = this
-		this.internetIconEl.classList.forEach((cls) => {
-			this.internetIconEl.classList.remove(cls)
-		})
-		this.internetIconEl.classList.add('icon-hourglass-o')
-
-		if (navigator.onLine) {
-			that.internetIconEl.classList.remove('icon-hourglass-o')	
-			that.internetIconEl.classList.add('icon-wifi')	
-		} else {
-			that.internetIconEl.classList.remove('icon-hourglass-o')	
-			that.internetIconEl.classList.add('icon-flight')	
-		}
-	},
-	updateCalendarTimer: null,
-	getCalendar: function() {
-		let that = this
-
-		if (!localStorage.getItem('webDavServer') || !localStorage.getItem('webDavUsername') || !localStorage.getItem('webDavPassword')) {
-			return false
-		}
-
-		this.isCalendarUpdating = true
-
+	calendarListeners: function() {
+		let that = app
 		ipc.on('calendar', function(response, calendar) {
 
 		})
@@ -285,11 +170,115 @@ let app = {
 			
 		})
 
+		$('.calendar').datepicker({
+			inline: true,
+			firstDay: 1,
+			onRenderCell: function(date, cellType) {
+		        if (cellType == 'day') {
+		        	let cDate = new Date(date)
+		        	let events = that.getEventsByDate(date)
+
+		        	if (events.length) {
+		        		return {
+						    html: (cDate.getDate() + `<span class="calendar-events">${events.length}</span>`), // Custom cell content
+						    classes: '', // Extra css classes to cell
+						    disabled: false, // true/false, if true, then cell will be disabled
+						}
+		        	}
+		        	
+		        }
+		        // console.log(date)
+		    },
+		    onSelect(formattedDate, date, plugin) {
+		    	that.calendarSelected = date
+		    	that.showEventsList(date)
+		    }
+		})
+	},
+	hideCameraScreen: function() {
+		console.log('Camera hide', new Date())
+		let that = this
+		this.isCameraScreen = false		
+		$('.cameras video').each(function() {
+			videojs(this).dispose()
+		})
+		$('.cameras').html('')
+
+	},
+	toggleCameras: function() {
+		if (this.isMapScreen) {
+			this.hideMap()	
+		}
+		if (!this.isCameraScreen) {
+			this.showCamerasScreen()
+		} else {
+			this.hideCameraScreen()
+			this.isCameraScreen = false
+			this.processBackground()
+			
+		}
+	},
+	toggleMap: function() {
+		if (this.isCameraScreen) {
+			this.isCameraScreen = false
+			$('.cameras').html('')
+		}
+		if (!this.isMapScreen) {
+			this.showMap()
+		} else {
+			this.hideMap()
+			this.processBackground()
+		}
+	},
+	setDateTime: function() {
+		let date = new Date()
+		let timeString  = date.getHours() + ':' + (date.getMinutes()< 10 ? '0' : '') + date.getMinutes() 
+		if (app.timeEl.innerText != timeString) {
+			app.timeEl.innerText = timeString
+		}
+
+		let dateString = date.toLocaleDateString('ru-RU', { weekday: 'long' }) + ', ' + date.toLocaleDateString('ru-RU', { month: 'long', day: 'numeric' });
+		if (app.dateEl.innerText != dateString) {
+			app.dateEl.innerText = dateString			
+		}
+
+		setTimeout(app.setDateTime, 200)
+		
+	},
+	checkNetwork: function() {
+		let that = app
+		app.internetIconEl.classList.forEach((cls) => {
+			app.internetIconEl.classList.remove(cls)
+		})
+		app.internetIconEl.classList.add('icon-hourglass-o')
+
+		if (navigator.onLine) {
+			that.internetIconEl.classList.remove('icon-hourglass-o')	
+			that.internetIconEl.classList.add('icon-wifi')	
+		} else {
+			that.internetIconEl.classList.remove('icon-hourglass-o')	
+			that.internetIconEl.classList.add('icon-flight')	
+		}
+
+		setTimeout(app.checkNetwork, 2000)
+	},
+	updateCalendarTimer: null,
+	getCalendar: function() {
+		let that = app
+
+		if (!localStorage.getItem('webDavServer') || !localStorage.getItem('webDavUsername') || !localStorage.getItem('webDavPassword')) {
+			return false
+		}
+
+		app.isCalendarUpdating = true
+
 		ipc.send('getCalendar', {
 			user: localStorage.getItem('webDavUsername'),
 			password: localStorage.getItem('webDavPassword'),
 			server: localStorage.getItem('webDavServer'),
 		})
+
+		setTimeout(app.getCalendar, 30000)
 	},
 	getEventsByDate: function (date) {
 		let that = this
@@ -367,13 +356,14 @@ let app = {
 	getMinutes: function (date) {
 		return (date.getMinutes()< 10 ? '0' : '') + date.getMinutes()
 	},
-	processBackground: async function() {
+	processBackground: function() {
+
 		let background = localStorage.getItem('background')
 		let imageUrl = localStorage.getItem('imageUrl')
 		let dailyTerm = localStorage.getItem('dailyTerm')
 		let randomTerm = localStorage.getItem('randomTerm')
 		let url = null
-		if (!background || this.isCameraScreen || this.isCameraScreen) {
+		if (!background || app.isCameraScreen || app.isCameraScreen) {
 			return false
 		}
 
@@ -406,12 +396,12 @@ let app = {
 				break;
 			case 'downloaded_images':
 				let backgrounds = availableBackgrounds()
-				if (this.currentImageIndex === null) {
-					this.currentImageIndex = 0					
+				if (app.currentImageIndex === null) {
+					app.currentImageIndex = 0					
 				} else {
-					this.currentImageIndex = backgrounds.length == (this.currentImageIndex +1)? 0 : (this.currentImageIndex+1)			
+					app.currentImageIndex = backgrounds.length == (app.currentImageIndex +1)? 0 : (app.currentImageIndex+1)			
 				}
-				$('.screen-bg').css('background-image', `url('./backgrounds/${backgrounds[this.currentImageIndex]}')`)
+				$('.screen-bg').css('background-image', `url('./backgrounds/${backgrounds[app.currentImageIndex]}')`)
 				break;
 		}
 	},
@@ -448,7 +438,7 @@ let app = {
 		this.isCameraScreen = true
 	},
 	getCamerasList: function(callback) {
-		let that = this
+		let that = app
 		$.get('https://sevstar.net/oko/', function (data) {
 			
 			let json = data.split('cameras = ')[1].split('var map')[0].trim()
@@ -456,9 +446,15 @@ let app = {
 			json = json.substring(0, json.length-1)
 			json = JSON.parse(json)
 			that.cameras = json
-			callback(json)
+			if (callback) {
+				callback(json)	
+			}			
 			
-		})	
+		}).catch(function(e) {
+			console.error(e)
+		})
+
+		setTimeout(app.getCamerasList, 10800000)
 		
 	},
 	showMap: function() {
@@ -477,7 +473,7 @@ let app = {
 		this.isMapScreen = false
 	},
 	getWeather: function() {
-		let that = this
+		let that = app
 		let weatherCity = localStorage.getItem('weatherCity')
 		if (weatherCity) {
 			$.get(`https://api.openweathermap.org/data/2.5/weather?q=${weatherCity}&units=metric&appid=0d48c65818b71bba42c89e2ec7579ac1`, function(data) {
@@ -531,6 +527,8 @@ let app = {
 				$('.weatherForecast').html(html)
 			})
 			$('.weather').removeClass('hidden')
+
+			setTimeout(app.getWeather, 120000)
 		}
 		
 	},
