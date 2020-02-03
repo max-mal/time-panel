@@ -15,6 +15,10 @@ window.addEventListener('DOMContentLoaded', () => {
   //   replaceText(`${type}-version`, process.versions[type])
   // }
   // alert(process.cwd())
+  $.get('./backgrounds/index', function(data) {
+  	window.backgrounds = data.split('\n')
+  })
+  
 })
 
 window.downloadBackground = function(url) {
@@ -30,6 +34,7 @@ window.downloadBackground = function(url) {
 }
 
 window.availableBackgrounds = function () {
-	return fs.readdirSync('backgrounds')
+	return window.backgrounds? window.backgrounds : []
 }
 window.ipc = require('electron').ipcRenderer;
+

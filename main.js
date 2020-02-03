@@ -40,7 +40,7 @@ function createWindow() {
     mainWindow.setFullScreen(true);
     mainWindow.removeMenu()
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
 
     mainWindow.webContents.on('crashed', (e) => {        
         mainWindow.destroy();

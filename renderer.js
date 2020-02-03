@@ -131,6 +131,12 @@ let app = {
 	},
 	calendarListeners: function() {
 		let that = app
+
+		let calendarEvents = localStorage.getItem('calendarEvents')
+		if (calendarEvents) {
+			that.calendarEvents = JSON.parse(calendarEvents)
+		}
+
 		ipc.on('calendar', function(response, calendar) {
 
 		})
@@ -156,6 +162,8 @@ let app = {
 					}
 				})
 			}
+
+			localStorage.setItem('calendarEvents', JSON.stringify(that.calendarEvents))
 
 			if (that.updateCalendarTimer) {
 				clearTimeout(that.updateCalendarTimer)
@@ -270,13 +278,16 @@ let app = {
 			return false
 		}
 
-		app.isCalendarUpdating = true
+		if (navigator.onLine) {
+			app.isCalendarUpdating = true
 
-		ipc.send('getCalendar', {
-			user: localStorage.getItem('webDavUsername'),
-			password: localStorage.getItem('webDavPassword'),
-			server: localStorage.getItem('webDavServer'),
-		})
+			ipc.send('getCalendar', {
+				user: localStorage.getItem('webDavUsername'),
+				password: localStorage.getItem('webDavPassword'),
+				server: localStorage.getItem('webDavServer'),
+			})	
+		}
+		
 
 		setTimeout(app.getCalendar, 30000)
 	},
