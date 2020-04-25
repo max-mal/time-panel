@@ -11,18 +11,21 @@ body {
 }
 .datetime {
     position: absolute;
-    top: 80px;
+    top: 50px;
     left: 0;
     color: white;
     right: 0;
     text-align: center;
+    width: 360px;
+    border-bottom: 1px solid white;
+    padding-bottom: 11px;
 }
 
 .time {
-    font-size: 150px;
+    font-size: 90px;
 }
 .date {
-    font-size: 60px;
+    font-size: 29px;
 }
 .statusBar {
     position: absolute;
@@ -39,8 +42,12 @@ body {
 }
 .calendar-wrapper {
     position: absolute;
-    top: 80px;
-    left: 10px;
+    top: 210px;
+    left: 0;
+    width: 330px;
+    border-bottom: 1px solid white;
+    padding-left: 30px;
+    padding-bottom: 7px;
 }
 .status-internet {
   display: inline-block;
@@ -202,6 +209,7 @@ body {
     top: 170px;
     right: 10px;
     text-align: center;
+    display: none;
 }
 .calendar-events-list {
     position: relative;
@@ -232,7 +240,7 @@ nav.datepicker--nav {
     color: white;
 }
 .screen-bg {
-    background: url(https://images.unsplash.com/photo-1451337516015-6b6e9a44a8a3);
+    background: black;
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -285,17 +293,19 @@ nav.datepicker--nav {
 .quote {
     color: white;
     position: absolute;
-    bottom: 50px;
-    width: 50vw;
+    top: 475px;
+    width: 360px;
     left: 0;
     right: 0;
-    margin: auto;
+    /* margin: auto; */
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
+    border-bottom: 1px solid white;
+    padding-bottom: 11px;
 }
 
 .quote__author {
-    font-size: 25px;
+    font-size: 15px;
     margin-top: 10px;
     text-align: right;
     font-style: italic;

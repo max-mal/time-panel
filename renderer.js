@@ -63,6 +63,9 @@ let app = {
 		let that = app
 		
 		let backgroundTypeChangeInterval = localStorage.getItem('backgroundTypeChangeInterval')
+		if (!backgroundTypeChangeInterval) {
+			backgroundTypeChangeInterval = 100
+		}
 
 		let cameraDuration = localStorage.getItem('cameraDuration')
 		let mapDuration = localStorage.getItem('mapDuration')
@@ -194,6 +197,11 @@ let app = {
 		    	that.showEventsList(date)
 		    }
 		})
+
+		setInterval(function() {
+			let datepicker = $('.calendar').datepicker().data('datepicker');
+			datepicker.update({})
+		}, 300000)
 	},
 	hideCameraScreen: function() {
 		console.log('Camera hide', new Date())
