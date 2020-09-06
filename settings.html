@@ -68,6 +68,12 @@
 	<label>prognozisStop</label>
 	<p><input id="prognozisStop" placeholder="prognozisStop" onchange="saveItem(this)"></p>
 
+	<label>Use Telegram</label>
+	<p><select id="useTelegram" onchange="saveItem(this)">
+		<option>no</option>
+		<option>yes</option>
+	</select></p>
+
 	<a href="./index.html">Back</a>
 
 
@@ -79,11 +85,9 @@
 	<script type="text/javascript">
 
 		function getCameras () {
-			$.get('https://sevstar.net/oko/', function (data) {
+			$.get('https://sevstar.net/wp-json/sevstar-api/oko_list_all', function (data) {
 				window.data = data 
-				window.cameras = data.split('cameras = ')[1].split('var map')[0].trim()
-				cameras = cameras.substring(0, cameras.length-1)
-				cameras = JSON.parse(cameras)
+				window.cameras = data
 
 				let selectedCameras = localStorage.getItem('cameras')
 				if (selectedCameras) {

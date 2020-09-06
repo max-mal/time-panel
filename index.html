@@ -54,10 +54,29 @@
         </div><br>
 
       </div>
-      <div class="quote">
-        <div class="quote__title"></div>
-        <div class="quote__author"></div>
+      <div class="rContainer">
+        <div class="telegramQRCode" style="padding: 20px; background: white; display: none;">
+          <div id="qr"></div>
+        </div>
+        <div class="telegramPassword" style="display: none;">
+          <input type="password" placeholder="Telegram 2FA password" onchange="ipc.send('telegramPassword', {
+            password: $('.telegramPassword input').val()
+          }); $('.telegramPassword').hide()">
+        </div>
+        <div class="telegramNew" style="display: none;">         
+        </div>
+        <div class="daysforecast">
+          <div class="daysforecast__days">          
+                        
+          </div>
+        </div>
+        <div class="quote">
+          <div class="quote__title"></div>
+          <div class="quote__author"></div>
+        </div>       
       </div>
+      
+      
 
       <div class="datetime">
         <div class="time"></div>
@@ -65,7 +84,7 @@
       </div>
 
       <div class="weatherBlock weatherForecast">         
-        </div>
+      </div>
 
       
 
@@ -81,6 +100,9 @@
         </a>
         <a href="javascript:app.toggleMap();">
           <i class="icon-map"></i>
+        </a>
+        <a href="javascript:ipc.send('exit')">
+          <i class="icon-cancel"></i>
         </a>
       </div>
       <div class="calendar-wrapper">
@@ -149,6 +171,7 @@
     </div>
 
     <script type="text/javascript" src="./jquery-3.4.1.min.js"></script>
+    <script src="./qrcode.min.js"></script>    
     <script type="text/javascript" src="./calendar/js/datepicker.min.js"></script>
     <script src="./renderer.js"></script>    
   </body>

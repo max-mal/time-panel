@@ -40,10 +40,11 @@ let app = {
 		that.stopPrognozisTm()
 
 		that.updateMemoryInfo()
+		that.initTelegram();
 		
 	},
 	updateMemoryInfo: function() {
-		$('.memoryInfo').html(`${(window.performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(1) } Kb`)
+		$('.memoryInfo').html(`${(window.performance.memory.usedJSHeapSize / 1024 / 1024).toFixed(1) } MB`)
 		if (window.performance.memory.usedJSHeapSize > window.performance.memory.jsHeapSizeLimit * 0.75) {
 			$('.memoryInfo').css('color', 'red')
 		}
@@ -458,13 +459,13 @@ let app = {
 	},
 	getCamerasList: function(callback) {
 		let that = app
-		$.get('https://sevstar.net/oko/', function (data) {
+		$.get('https://sevstar.net/wp-json/sevstar-api/oko_list_all', function (data) {
 			
-			let json = data.split('cameras = ')[1].split('var map')[0].trim()
+			// let json = data.split('cameras = ')[1].split('var map')[0].trim()
 
-			json = json.substring(0, json.length-1)
-			json = JSON.parse(json)
-			that.cameras = json
+			// json = json.substring(0, json.length-1)
+			// json = JSON.parse(json)
+			that.cameras = data;
 			if (callback) {
 				callback(json)	
 			}			
@@ -523,6 +524,7 @@ let app = {
 					weatherByDate[dateString].push(record)
 				})
 				let html = ''
+				let twoDaysHtml = ''
 
 				Object.keys(weatherByDate).forEach((date) => {
 					let arr = weatherByDate[date]
@@ -541,9 +543,43 @@ let app = {
 			        		</div>
 			        	`}).join('')}</div>
 			        </div>`
+
+			        let now = new Date();
+			        let todayDate = now.toLocaleDateString('ru-RU', {
+						day: 'numeric',
+						month: 'numeric',
+					})
+			        let tomorrow = new Date()
+			        tomorrow.setDate(now.getDate() + 1); 
+			        let tomorrowDate = tomorrow.toLocaleDateString('ru-RU', {
+						day: 'numeric',
+						month: 'numeric',
+					})
+
+			        if ([todayDate, tomorrowDate].includes(date)) {
+			        	twoDaysHtml += `
+			        	<div class="daysforecast__day">
+			        		<p class="daysforecast__daytitle">${date}</p>
+					          <div class="daysforecast__daydata">
+					            ${arr.map((weather) => {
+					            	let dt = new Date(weather.dt * 1000)
+					        		return `
+					        		<div class="daysforecast__daydata__item">
+					        			<div class="daysforecast__daydata__item__time">${dt.getHours()}<sup>h</sup></div>
+					        			<div class="daysforecast__daydata__item__time__icon">
+					        				<img src="http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png" title="${weather.weather[0].main}">
+					        			</div>
+					        			<div class="daysforecast__daydata__item__time__data" title="(${weather.main.feels_like} ℃)">${weather.main.temp}</div>
+					        		</div>`
+					            })}
+					          </div>
+					    </div>
+			        	`
+			        }
 				})
 
 				$('.weatherForecast').html(html)
+				$('.daysforecast__days').html(twoDaysHtml)
 			})
 			$('.weather').removeClass('hidden')
 
@@ -683,10 +719,67 @@ let app = {
 		var quote = window.quotes[Math.floor(Math.random()*window.quotes.length)];
 		$('.quote__title').html(quote.text.split('.').slice(1, -1).join('.').trim())
 		$('.quote__author').html(quote.author)
+	},
+	initTelegram: function () {
+
+		let useTelegram = localStorage.getItem('useTelegram')
+
+		if (!useTelegram) {
+			return;
+		}
+
+		ipc.on('initTelegram', function(response, data) {
+			console.log(response, data);		
+		})
+
+		ipc.on('telegramQRCode', function(response, data) {
+			$('.telegramQRCode').html('<div id="qr"></div>')
+			$('.telegramQRCode').show();
+			var qrcode = new QRCode("qr");	
+			qrcode.clear();
+			qrcode.makeCode("tg://login?token=" + data.code); 
+		})
+
+		ipc.on('telegramQRCodeHide', function(response, data) {
+			$('.telegramQRCode').hide();
+		})
+
+		ipc.on('telegramPassword', function(response, data) {
+			$('.telegramPassword').show();
+		})
+
+		ipc.on('telegramMessages', function (response, data) {
+			if (data.messages.length) {
+				$('.telegramNew').show();
+			} else {
+				$('.telegramNew').hide();
+			}
+
+			let html = '';
+			data.messages.forEach((dialog) => {
+				html += `<div class="telegramNew__user">
+	            <p class="telegramNew__user_title">${dialog.entity.first_name? dialog.entity.first_name : dialog.entity.title}</p>
+	            ${
+	            	dialog.messages.map((message) => {
+	            		return message.message? `<p class="telegramNew__user_message">${message.message}</p>` : ''
+	            	}).join('')
+	            }
+	            
+	          </div>`
+			})
+			$('.telegramNew').html(html);
+		})
+
+		ipc.send('initTelegram');
+
+		setInterval(function() {
+			ipc.send('initTelegram');
+		}, 2 * 60 * 1000)
 	}
 
 
 }
 document.addEventListener('DOMContentLoaded', function(){
-	app.init()
+	app.init()	
 })
+

@@ -22,10 +22,13 @@
     "electron": "^7.1.9"
   },
   "dependencies": {
+    "@mtproto/core": "3.4.0",
     "@sentry/electron": "^1.2.0",
+    "base64url": "^3.0.1",
     "cozy-ical": "^1.1.22",
     "dav": "^1.8.0",
     "electron-updater": "^4.2.0",
+    "is-port-reachable": "^3.0.0",
     "node-caldav-mod": "^1.0.3"
   },
   "build": {

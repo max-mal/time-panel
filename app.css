@@ -292,11 +292,11 @@ nav.datepicker--nav {
 }
 .quote {
     color: white;
-    position: absolute;
-    top: 475px;
+    /*position: absolute;*/
+    /*top: 475px;*/
     width: 360px;
-    left: 0;
-    right: 0;
+    /*left: 0;*/
+    /*right: 0;*/
     /* margin: auto; */
     text-align: center;
     font-size: 16px;
@@ -315,4 +315,93 @@ nav.datepicker--nav {
     position: absolute;
     bottom: 10px;
     right: 10px;
+}
+
+.quote__title {
+    margin-top: 25px;
+}
+
+.rContainer {
+    width: 360px;
+    position: absolute;
+    top: 470px;
+    border-bottom: 1px solid white;
+}
+
+.daysforecast {
+    border-bottom: 1px solid white;
+}
+
+.daysforecast__daydata {
+    display: flex;
+    padding-left: 5px;
+}
+
+.daysforecast__daydata__item__time__icon img {
+    width: 40px;
+}
+
+p.daysforecast__daytitle {
+    color: white;
+    text-align: center;
+    margin: 0;
+    text-decoration: underline;
+    margin-bottom: 14px;
+}
+
+.daysforecast__daydata__item__time {
+    color: white;
+    text-align: center;
+}
+
+.daysforecast__daydata__item__time__icon {
+    text-align: center;
+}
+.daysforecast__daydata__item__time__data {
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 13px;
+}
+
+.telegramNew {
+    color: white;
+}
+
+p.telegramNew__user_title {
+    font-weight: bold;
+}
+
+.telegramNew__user {
+    border-bottom: 1px solid white;
+}
+
+p.telegramNew__user_message {
+    max-height: 2.3em;
+    overflow: hidden;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.telegramNew {
+    padding-left: 10px;
+    max-height: 30vh;
+    overflow: auto;
+    padding-bottom: 10px;
+    border-bottom: 1px solid white;
+}
+
+.telegramNew__user {
+    max-height: 10.5em;
+    overflow: auto;
+    padding-bottom: 27px;
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
 }
